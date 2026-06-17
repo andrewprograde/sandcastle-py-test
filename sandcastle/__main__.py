@@ -1,5 +1,7 @@
 """Command-line entry point for sandcastle."""
 
+GREETING = "Hello"
+
 FULCRUM_ART = r"""
 ███████╗██╗   ██╗██╗      ██████╗██████╗ ██╗   ██╗███╗   ███╗
 ██╔════╝██║   ██║██║     ██╔════╝██╔══██╗██║   ██║████╗ ████║
@@ -12,7 +14,7 @@ FULCRUM_ART = r"""
 
 def main() -> None:
     """Print a friendly greeting and Fulcrum ASCII art."""
-    print("Hello")
+    print(GREETING)
     print(FULCRUM_ART)
 
 

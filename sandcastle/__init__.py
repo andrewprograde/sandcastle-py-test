@@ -1,0 +1,1 @@
+"""Sandcastle greeting CLI package."""
