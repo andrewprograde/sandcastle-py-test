@@ -8,7 +8,10 @@ from typing import Any
 from urllib.error import URLError
 from urllib.request import urlopen
 
+DEFAULT_LIMIT = 10
+DEFAULT_TIMEOUT = 10
 HN_API = "https://hacker-news.firebaseio.com/v0"
+HN_DISCUSSION_URL = "https://news.ycombinator.com/item?id={story_id}"
 RESET = "\033[0m"
 BOLD = "\033[1m"
 DIM = "\033[2m"
@@ -25,29 +28,31 @@ class Post:
     descendants: int
 
 
-def _load_json(url: str, timeout: int = 10) -> Any:
+def _load_json(url: str, timeout: int = DEFAULT_TIMEOUT) -> Any:
     with urlopen(url, timeout=timeout) as response:
         return json.load(response)
 
 
-def fetch_top_posts(limit: int = 10, timeout: int = 10) -> list[Post]:
+def _post_from_item(item: dict[str, Any], story_id: int) -> Post:
+    return Post(
+        title=item.get("title") or "Untitled",
+        url=item.get("url") or HN_DISCUSSION_URL.format(story_id=story_id),
+        score=int(item.get("score") or 0),
+        by=item.get("by") or "unknown",
+        descendants=int(item.get("descendants") or 0),
+    )
+
+
+def fetch_top_posts(
+    limit: int = DEFAULT_LIMIT, timeout: int = DEFAULT_TIMEOUT
+) -> list[Post]:
     """Fetch the current top Hacker News posts."""
     story_ids = _load_json(f"{HN_API}/topstories.json", timeout=timeout)[:limit]
     posts: list[Post] = []
 
     for story_id in story_ids:
         item = _load_json(f"{HN_API}/item/{story_id}.json", timeout=timeout) or {}
-        title = item.get("title") or "Untitled"
-        url = item.get("url") or f"https://news.ycombinator.com/item?id={story_id}"
-        posts.append(
-            Post(
-                title=title,
-                url=url,
-                score=int(item.get("score") or 0),
-                by=item.get("by") or "unknown",
-                descendants=int(item.get("descendants") or 0),
-            )
-        )
+        posts.append(_post_from_item(item, story_id))
 
     return posts
 
@@ -95,9 +100,11 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="hn", description="Show the top 10 Hacker News posts."
     )
-    parser.add_argument("--limit", type=int, default=10, help="number of posts to show")
     parser.add_argument(
-        "--timeout", type=int, default=10, help="HTTP timeout in seconds"
+        "--limit", type=int, default=DEFAULT_LIMIT, help="number of posts to show"
+    )
+    parser.add_argument(
+        "--timeout", type=int, default=DEFAULT_TIMEOUT, help="HTTP timeout in seconds"
     )
     args = parser.parse_args(argv)
 
