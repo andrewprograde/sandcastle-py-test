@@ -9,6 +9,13 @@ dependencies = []
 [project.scripts]
 hn = "hn_cli:main"
 
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+py-modules = ["hn_cli"]
+
 [dependency-groups]
 dev = [
     "pytest>=8.0",
