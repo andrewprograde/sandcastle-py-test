@@ -1,0 +1,6 @@
+.env
+.env.sandcastle
+logs/
+worktrees/
+pi/*
+!pi/.gitkeep
