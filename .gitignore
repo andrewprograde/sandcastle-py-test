@@ -1,0 +1,25 @@
+# --- secrets: NEVER commit -------------------------------------------------
+# dotenvx PRIVATE key — leaking this defeats the encryption
+.env.keys
+# any plaintext env at the repo root
+.env
+.env.local
+.env.*.local
+# Note: .env.sandcastle is ENCRYPTED by dotenvx and is safe to commit, so it is
+# intentionally NOT ignored. Uncomment the next line to stop tracking it too.
+# .env.sandcastle
+
+# --- python / tooling ------------------------------------------------------
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+
+# --- sandcastle ephemera (the .sandcastle/.gitignore also covers these) ----
+.sandcastle/.env
+.sandcastle/.env.sandcastle
+.sandcastle/worktrees/
+.sandcastle/logs/
+.sandcastle/pi/*
+!.sandcastle/pi/.gitkeep

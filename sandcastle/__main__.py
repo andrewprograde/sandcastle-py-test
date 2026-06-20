@@ -1,27 +1,21 @@
-"""Command line interface for sandcastle."""
+"""Command-line entry point for sandcastle."""
 
-from __future__ import annotations
+GREETING = "Hello"
 
-import argparse
-
-FISH_ASCII_ART = "><(((('>"
-
-
-def build_parser() -> argparse.ArgumentParser:
-    """Build the sandcastle CLI argument parser."""
-    parser = argparse.ArgumentParser(prog="sandcastle")
-    subparsers = parser.add_subparsers(dest="command", required=True)
-    subparsers.add_parser("fish", help="print a fish ASCII art")
-    return parser
+FULCRUM_ART = r"""
+███████╗██╗   ██╗██╗      ██████╗██████╗ ██╗   ██╗███╗   ███╗
+██╔════╝██║   ██║██║     ██╔════╝██╔══██╗██║   ██║████╗ ████║
+█████╗  ██║   ██║██║     ██║     ██████╔╝██║   ██║██╔████╔██║
+██╔══╝  ██║   ██║██║     ██║     ██╔══██╗██║   ██║██║╚██╔╝██║
+██║     ╚██████╔╝███████╗╚██████╗██║  ██║╚██████╔╝██║ ╚═╝ ██║
+╚═╝      ╚═════╝ ╚══════╝ ╚═════╝╚═╝  ╚═╝ ╚═════╝ ╚═╝     ╚═╝
+""".strip()
 
 
 def main() -> None:
-    """Run the sandcastle CLI."""
-    parser = build_parser()
-    args = parser.parse_args()
-
-    if args.command == "fish":
-        print(FISH_ASCII_ART)
+    """Print a friendly greeting and Fulcrum ASCII art."""
+    print(GREETING)
+    print(FULCRUM_ART)
 
 
 if __name__ == "__main__":
