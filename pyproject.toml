@@ -1,0 +1,17 @@
+[project]
+name = "sandcastle-py-test"
+version = "0.1.0"
+description = "A small greeting CLI."
+requires-python = ">=3.11"
+
+[project.scripts]
+sandcastle = "sandcastle.__main__:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.4",
+]
+
+[tool.ruff]
+line-length = 88
